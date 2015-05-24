@@ -1,0 +1,12 @@
+{
+  "require" : {
+    "klein/klein": "dev-master",
+    "ircmaxell/password-compat": "dev-master",
+    "phpmailer/phpmailer": "~5.2"
+  },
+  "autoload" : {
+    "psr-4" : {
+      "Module\\" : "app/src/"
+    }
+  }
+}
