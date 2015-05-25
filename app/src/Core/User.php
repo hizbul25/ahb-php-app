@@ -4,6 +4,10 @@
 class User extends Database implements Authenticate{
 
     public function create(array $arrUser) {
+        if($this->getUserByEmail($arrUser['email'])) {
+            setFlash('User already exist, please try another user');
+            redirect('register');
+        }
         try {
             $sql = "INSERT INTO users(name, email, mobile, password) VALUES(:name, :email, :mobile, :password)";
             $conn = $this->connect->prepare($sql);
@@ -83,7 +87,8 @@ class User extends Database implements Authenticate{
         if(array_key_exists('email', $arrCredentials) && array_key_exists('password', $arrCredentials)) {
             $arrUser = $this->getUserByEmail($arrCredentials['email']);
             if(password_verify($arrCredentials['password'], $arrUser['password'])) {
-                $_SESSION['login_user'] = $arrUser;
+                $_SESSION['login_user_id'] = (int) $arrUser['id'];
+                $_SESSION['login_user_name'] = $arrUser['name'];
 
                 return true;
             }
@@ -97,10 +102,10 @@ class User extends Database implements Authenticate{
     }
 
     public function getLogout() {
-        session_destroy();
-        unset($_SESSION['login_user']);
-
-        redirect();
+        unset($_SESSION['login_user_id']);
+        unset($_SESSION['login_user_name']);
+        setFlash('Logout successful');
+        redirect('/');
     }
 
 }

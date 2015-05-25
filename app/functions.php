@@ -148,7 +148,7 @@ function redirect($uri = '/')
  * @param null $message
  * @return null
  */
-function flash($message = null)
+function setFlash($message = null)
 {
     $flash = $message;
     if ($message === null && isset($_SESSION['flash.message'])) {
@@ -159,4 +159,34 @@ function flash($message = null)
     }
 
     return $flash;
+}
+
+function getFlash() {
+    return $_SESSION['flash.message'];
+}
+
+/**
+ * get login user name
+ * @return string
+ *
+ */
+
+function currentUser() {
+    if(!empty($_SESSION['login_user_name'])) {
+        return $_SESSION['login_user_name'];
+    }
+}
+
+
+/**
+ * show flash message
+ * @params string $message
+ * @params string $type
+ *
+ * @return string
+ */
+
+function getMessage($message, $type = 'success') {
+    echo '<div class="alert alert-'.$type.'" role="alert">' . $message . '</div>';
+
 }

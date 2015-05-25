@@ -24,7 +24,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Hello PHP Script</a>
+            <a class="navbar-brand" href="/">Hello PHP Script</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -32,20 +32,30 @@
                 <li><a href="<?php generate_url('register')?>"> Register </a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <i class="fa fa-cog"></i> User Settings <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="<?php generate_url('profile/edit') ?>">Edit Your Profile</a></li>
-                        <li><a href="<?php generate_url('logout') ?>">Logout</a></li>
-                    </ul>
-                </li>
+                <?php if(currentUser()): ?>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <i class="fa fa-user"></i> <?php echo currentUser(); ?> <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="<?php generate_url('profile/edit') ?>">Edit Your Profile</a></li>
+                            <li><a href="<?php generate_url('logout') ?>">Logout</a></li>
+                        </ul>
+                    </li>
+                <?php endif ?>
+                <?php if(!currentUser()): ?>
+                    <li><a href="<?php generate_url('login')?>"><i class="fa fa-unlock-alt"></i>Login</a></li>
+                <?php endif ?>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 
 <div class="container">
-
+    <?php
+        if((getFlash())) {
+            getMessage(getFlash(), 'success');
+            setFlash('');
+        }
+    ?>
     <!-- Main component for a primary marketing message or call to action -->
     {{=yields=}}
 
