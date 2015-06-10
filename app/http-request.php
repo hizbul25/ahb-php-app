@@ -7,6 +7,29 @@ $request_handler->respond( array('GET','POST'), '/', function( $request ) {
     return layout();
 });
 
+$request_handler->respond(['GET', 'POST'], '/backbone/test', function($request) {
+    switch ($request->method()) {
+        case 'GET':
+            return renderPage('backbone/index');
+            break;
+        case 'POST':
+            exit();
+            break;
+    }
+});
+
+$request_handler->respond(['GET', 'POST'], '/backbone/data', function($request) {
+    dd($request);
+    switch ($request->method()) {
+        case 'GET':
+            return renderPage('backbone/data', ['id' => $request->id]);
+            break;
+        case 'POST':
+            exit();
+            break;
+    }
+});
+
 $request_handler->respond( array('GET','POST'), '/register', function( $request )
 {
     switch($request->method())
